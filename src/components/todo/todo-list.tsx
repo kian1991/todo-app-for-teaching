@@ -3,6 +3,7 @@ import { Todo } from "../../types";
 import { fetchTodos } from "../../services/todo-service";
 import { TodoListItem } from "./todo-list-item";
 import { TodoInput } from "./todo-input";
+import { Container } from "../ui/container";
 
 export function TodoList() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -30,17 +31,19 @@ export function TodoList() {
   }
 
   return (
-    <div className="mx-auto flex max-w-xl flex-col gap-2 text-center">
-      <TodoInput onTodoSubmit={(text) => handleTodoSubmit(text)} />
-      <ul className="list-none text-white">
-        {todos.map((todo) => (
-          <TodoListItem
-            key={todo.id}
-            todo={todo}
-            onTodoClick={() => handleTodoClick(todo.id)}
-          />
-        ))}
-      </ul>
-    </div>
+    <Container>
+      <div className="flex flex-col gap-2 text-center">
+        <TodoInput onTodoSubmit={(text) => handleTodoSubmit(text)} />
+        <ul className="list-none text-white">
+          {todos.map((todo) => (
+            <TodoListItem
+              key={todo.id}
+              todo={todo}
+              onTodoClick={() => handleTodoClick(todo.id)}
+            />
+          ))}
+        </ul>
+      </div>
+    </Container>
   );
 }

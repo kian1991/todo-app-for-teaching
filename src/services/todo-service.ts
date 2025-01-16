@@ -27,12 +27,15 @@ let todos: Todo[] = [
 export async function fetchTodos(): Promise<Todo[]> {
   // simulating latency of 500ms
   // throw new Error("No Todos Found!");
-  return new Promise((resolve) => setTimeout(() => resolve(todos), 1200));
+  return new Promise((resolve) => setTimeout(() => resolve(todos), 0));
 }
 
-export async function updateTodo(id: number, updatedTodo: Todo) {
-  const newTodos = todos.map((todo) => (id === todo.id ? updatedTodo : todo));
+export async function updateTodo(updatedTodo: Todo) {
+  const newTodos = todos.map((todo) =>
+    updatedTodo.id === todo.id ? updatedTodo : todo,
+  );
   todos = newTodos;
+  return todos;
 }
 
 export async function addTodo(newTodo: Omit<Todo, "id">) {

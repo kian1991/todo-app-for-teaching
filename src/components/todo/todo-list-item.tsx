@@ -1,14 +1,31 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Todo } from "../../types";
+import { updateTodo } from "../../services/todo-service";
 
 type TodoListItemProps = {
   todo: Todo;
-  onTodoClick: () => void;
 };
 
-export function TodoListItem({ todo, onTodoClick }: TodoListItemProps) {
+export function TodoListItem({ todo }: TodoListItemProps) {
+  const { mutate } = useMutation({
+    mutationFn: updateTodo,
+  });
+
+  const queryClient = useQueryClient();
+
+  function handleClick() {
+    mutate({
+      ...todo,
+      completed: !todo.completed,
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["todo"],
+    });
+  }
+
   return (
     <li
-      onClick={onTodoClick}
+      onClick={handleClick}
       className={
         todo.completed ? "cursor-pointer line-through" : "cursor-pointer"
       }

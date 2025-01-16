@@ -14,13 +14,6 @@ export function TodoList() {
     queryFn: fetchTodos,
   });
 
-  function handleTodoClick(id: number) {
-    if (!todos) return;
-    const newTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-    );
-  }
-
   return (
     <Container>
       <div className="flex flex-col gap-2 text-center">
@@ -34,11 +27,7 @@ export function TodoList() {
         {todos && (
           <ul className="list-none text-white">
             {todos.map((todo) => (
-              <TodoListItem
-                key={todo.id}
-                todo={todo}
-                onTodoClick={() => handleTodoClick(todo.id)}
-              />
+              <TodoListItem key={todo.id} todo={todo} />
             ))}
           </ul>
         )}

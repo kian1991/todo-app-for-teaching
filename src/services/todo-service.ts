@@ -1,7 +1,7 @@
 // import { TODO_API_URL } from "../constants";
 import { Todo } from "../types";
 
-const todos: Todo[] = [
+let todos: Todo[] = [
   {
     id: 1,
     completed: false,
@@ -22,11 +22,19 @@ const todos: Todo[] = [
   },
 ];
 
+// async function fakeLatency
+
 export async function fetchTodos(): Promise<Todo[]> {
   // simulating latency of 500ms
+  // throw new Error("No Todos Found!");
   return new Promise((resolve) => setTimeout(() => resolve(todos), 1200));
 }
 
-export function getTodosDirekt() {
-  return todos;
+export async function updateTodo(id: number, updatedTodo: Todo) {
+  const newTodos = todos.map((todo) => (id === todo.id ? updatedTodo : todo));
+  todos = newTodos;
+}
+
+export async function addTodo(newTodo: Omit<Todo, "id">) {
+  todos = [...todos, { ...newTodo, id: todos.length + 1 }];
 }

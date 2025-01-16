@@ -1,17 +1,26 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useState } from "react";
+import { addTodo } from "../../services/todo-service";
 
-type TodoInputProps = {
-  onTodoSubmit: (text: string) => void;
-};
-
-export function TodoInput({ onTodoSubmit }: TodoInputProps) {
+export function TodoInput() {
   const [text, setText] = useState<string>("");
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: addTodo,
+  });
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault(); // Unterbindet standard verhalten i.e. page refresh etc.
-    console.log(text);
-    // call callback function from props
-    onTodoSubmit(text);
+
+    mutate({
+      userId: 1,
+      completed: false,
+      title: text,
+    });
+    queryClient.invalidateQueries({ queryKey: ["todo"] });
+
     // reset text
     setText("");
   }

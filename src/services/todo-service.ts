@@ -23,8 +23,10 @@ const todos: Todo[] = [
 ];
 
 export async function fetchTodos(): Promise<Todo[]> {
-  // fetch todos from API
-  // const response = await fetch(TODO_API_URL);
-  // const data: Todo[] = await response.json();
-  return new Promise((resolve) => resolve(todos));
+  // simulating latency of 500ms
+  return new Promise((resolve) => setTimeout(() => resolve(todos), 1200));
+}
+
+export function getTodosDirekt() {
+  return todos;
 }
